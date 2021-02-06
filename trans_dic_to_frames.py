@@ -1,27 +1,28 @@
+import numpy 
 import shutil
-
-import SimpleITK as sitk
-import pydicom
-# import dicom
-import numpy
+from tqdm import tqdm
+# import SimpleITK as sitk
+import sys
+sys.path.append("/home/wly/anaconda3/lib/python3.7/site-packages")
+import dicom
 import os
 import imageio
-def read(path):
-    print(path)
+def split_to_frames(path):
+
     # pydicom.encaps.generate_pixel_data_frame()
     base_name=os.path.basename(path)
     dir_name=os.path.dirname(path)
     # print(base_name,dir_name)#IMG-0007-00008.dcm dicoms/dicoms1
     try:
-        ds = pydicom.read_file(path)
-    # print(ds)
-        print(ds.pixel_array.shape)#(115, 512, 512)
+        ds = dicom.read_file(path)
+        # print(ds.pixel_array.shape)#(115, 512, 512)
         img=ds.pixel_array
-
-        for i in range(5,30):
+        num_of_frames=ds.NumberOfFrames
+        for i in range(int(num_of_frames*0.4),num_of_frames-3):
             img1=img[i]
             frames_file=os.path.join(dir_name,'frames{}'.format(i))
             os.mkdir(frames_file)
+            imageio.imwrite("{}/{}_{}.jpg".format(dir_name,base_name,i), img1)
             imageio.imwrite("{}/{}_{}.jpg".format(frames_file,base_name,i), img1)
     except:
         print('dicom:{} too short'.format(path))
@@ -61,7 +62,12 @@ def make_each_dic_into_a_path(path):
     i=0
     for file in files:
         i+=1
-        dir_name = os.path.dirname(file)
+        ####
+        # dir_name = os.path.dirname(file)
+        dir_name = os.path.join(os.path.dirname(file),'merged')
+        if not os.path.exists(dir_name):
+            os.mkdir(dir_name)
+
         base_name = os.path.basename(file)
         new_dicom_i_path=os.path.join(dir_name,'dicom'+str(i))
         os.mkdir(new_dicom_i_path)
@@ -117,20 +123,21 @@ if __name__=='__main__':
 
 
 
-    path='dicom_113'
+    path='/home/DataBase4/cto_gan_data/RAO_CAU'
     '''1'''
     # rename_same_dicom(path)
-    new_merged_path='dicom_113/merged'
+    new_merged_path='/home/DataBase4/cto_gan_data/RAO_CAU'#LAO_CRA RAO_CAU
     '''2'''
     # merge(path,new_merged_path)
-    '''3'''
-    # make_each_dic_into_a_path(new_merged_path)
+    '''3''' 
+    make_each_dic_into_a_path(new_merged_path)
 
     '''4'''
     files=list_all_files(new_merged_path)
-    print(files)
-    for  file in files:
-        read(file)
+    pbar=tqdm(files)
+    for  file in pbar:
+        pbar.set_description("Processing %s" % file)
+        split_to_frames(file)
 
     '''5'''
     ### run add_format_frame.py
