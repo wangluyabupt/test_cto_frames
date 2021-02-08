@@ -16,7 +16,8 @@ main first
 3、数据集20190221_2误删，现在对segmentation中仅剩的3个日期文件夹72例病患进行统计
 
 2、操作trans_dic_to_frames.py
-   dicom变帧（frames），每帧进入所在dicom_i的frame_i文件夹，同时复制一份到dicom_i
+   1、dicom变帧（frames），每帧进入所在dicom_i的frame_i文件夹，同时复制一份到dicom_i
+   2、这里忽略了前面的一些帧（百分之X0），为了更方便的选取到标准帧（充盈）
 
 操作plot_mult_imgs.py
 2、对DataBase4/cto_gan_data的LAO_CRA 中dicom frames 数据进行观察+手动筛选
@@ -31,6 +32,20 @@ main first
 
 
 5、分割 操作cto_frames工程
+    1、这一部分要考虑一下怎么融合进大网络
+6、操作find_mer_rst.py  
+    1、将合并结果res放入示例'/home/DataBase4/cto_gan_data/RAO_CAU/find_merged_result'路径
+    2、合并的时候有个问题，就是两张图的序号可能会被随机选择为第一、第二张图片，所以要重新整合一下合并图上每一个小图片左上角的命名
+7、再次操作plot_mul_imgs.py将反选出的res结果合并成一整幅图片来实现人工选择合适的数据对
+    1、选择的时候最好不要选择距离标准帧很近的帧
+    2、这一步其实可以考虑重新生成一下钱面几帧
+    1、选出的数据对直接去/home/DataBase4/cto_gan_data/RAO_CAU/merged下面每个dicom的frame的moved去选择已经实现了位移弥补的数据帧对即可
+8、选出的数据去
+    1、 A是long，是标签
+    2、
 
 6、训练 操作pix2pix
+    1、result中的html文件中图片链接是依赖于工程的，所以使用插件live server打开该html才可以显示（右击：open in live server）
+    2、
+
         

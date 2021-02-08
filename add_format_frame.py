@@ -174,7 +174,7 @@ if __name__ == '__main__':
 
     '''delete_format_frames'''
 
-    # delete_format_frames(new_merged_path)
+    delete_format_frames(new_merged_path)
 
     # format_file = 'IMG-0006-000000.jpg'
     # add_format_frames(format_file, files)
