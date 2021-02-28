@@ -1,4 +1,5 @@
 # test_cto_frames
+origin
 main first
 1、操作choose_dcm.py
     首先在database3的segmentation的20190221_2(90+病人，290+日期,5000+张dcm)
@@ -33,6 +34,7 @@ main first
 
 5、分割 操作cto_frames工程
     1、这一部分要考虑一下怎么融合进大网络
+    2、
 6、操作find_mer_rst.py  
     1、将合并结果res放入示例'/home/DataBase4/cto_gan_data/RAO_CAU/find_merged_result'路径
     2、合并的时候有个问题，就是两张图的序号可能会被随机选择为第一、第二张图片，所以要重新整合一下合并图上每一个小图片左上角的命名
@@ -40,12 +42,30 @@ main first
     1、选择的时候最好不要选择距离标准帧很近的帧
     2、这一步其实可以考虑重新生成一下钱面几帧
     1、选出的数据对直接去/home/DataBase4/cto_gan_data/RAO_CAU/merged下面每个dicom的frame的moved去选择已经实现了位移弥补的数据帧对即可
-8、选出的数据去
-    1、 A是long，是标签
-    2、
+8、操作find_mer_rst.py 将选出的数据放入AB路径来操作pix2pix
+    1、 A是long分支，是标签
+    2、 B是要被预测的
 
 6、训练 操作pix2pix
     1、result中的html文件中图片链接是依赖于工程的，所以使用插件live server打开该html才可以显示（右击：open in live server）
     2、
 
-        
+流程更新记录：
+1、DataBase3/segmentation/目前2017年的数据
+
+2、操作choose_dcm.py，每个病人的每个日期中选取前7 dicom，trick：开头几个通常是没有导丝的
+    原始人数702，用非conda环境的python3（其实终端显示的是base）,选取前7个
+    {'RAO_CRA': 76, 'AP': 2, 'LAO': 73, 'RAO_CAU': 48, 'LAO_CAU': 53, 'CRA': 66, 'CAU': 38, 'LAO_CRA': 63, 'RAO': 4}
+    all_dcm_num: 423
+2、操作trans_dic_to_frames.py 时，留下帧的全部信息
+    本次仅针对LAO,用非conda环境的python3（其实终端显示的是base）
+3、操作plot_mult_imgs.py
+    修改#1路径，合成原始帧
+    人工选出标准帧（充盈的，尤其是支端）【每个dicom选一张】
+4、操作add_format_frames.py
+    
+
+
+反思：
+1、代码可以不优美但是注意结果的保存于整合用在论文中做结果展示
+2、

@@ -13,18 +13,26 @@ def split_to_frames(path):
     base_name=os.path.basename(path)
     dir_name=os.path.dirname(path)
     # print(base_name,dir_name)#IMG-0007-00008.dcm dicoms/dicoms1
+
+    merge_rst_name=os.path.join(merged_multi_imgs,dir_name.split('/')[-1]) 
+    os.mkdir(merge_rst_name)
     try:
         ds = dicom.read_file(path)
         # print(ds.pixel_array.shape)#(115, 512, 512)
         img=ds.pixel_array
         num_of_frames=ds.NumberOfFrames
-        for i in range(int(num_of_frames*0.4),num_of_frames-3):
+        # for i in range(int(num_of_frames*0.4),num_of_frames-3):
+        for i in range(num_of_frames):
             img1=img[i]
             frames_file=os.path.join(dir_name,'frames{}'.format(i))
             os.mkdir(frames_file)
-            imageio.imwrite("{}/{}_{}.jpg".format(dir_name,base_name,i), img1)
-            imageio.imwrite("{}/{}_{}.jpg".format(frames_file,base_name,i), img1)
-    except:
+
+            a="{}/{}_{}.jpg".format(merge_rst_name,base_name,i)
+            b="{}/{}_{}.jpg".format(frames_file,base_name,i)
+            imageio.imwrite(a, img1)
+            imageio.imwrite(b, img1)
+    except Exception as e:
+        print('e:',e)
         print('dicom:{} too short'.format(path))
 
 
@@ -123,18 +131,21 @@ if __name__=='__main__':
 
 
 
-    path='/home/DataBase4/cto_gan_data/RAO_CAU'
+    path='/home/DataBase4/cto_gan_data2/RAO'
     '''1'''
     # rename_same_dicom(path)
-    new_merged_path='/home/DataBase4/cto_gan_data/RAO_CAU'#LAO_CRA RAO_CAU
+    new_merged_path='/home/DataBase4/cto_gan_data2/RAO'#
     '''2'''
-    # merge(path,new_merged_path)
+    merge(path,new_merged_path)
     '''3''' 
     make_each_dic_into_a_path(new_merged_path)
 
-    '''4'''
+    # '''4'''
+    new_merged_path='/home/DataBase4/cto_gan_data2/RAO/merged'#
     files=list_all_files(new_merged_path)
     pbar=tqdm(files)
+    merged_multi_imgs='/home/DataBase4/cto_gan_data2/RAO/merged_multi_imgs'
+    os.mkdir(merged_multi_imgs)
     for  file in pbar:
         pbar.set_description("Processing %s" % file)
         split_to_frames(file)

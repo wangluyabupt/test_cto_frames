@@ -46,7 +46,7 @@ def get_angel(filepath):
         return None, None
     else:
         try:
-            primary=int(ds.PositionerSecondaryAngle)
+            primary=int(ds.PositionerPrimaryAngle)
             secondary=int(ds.PositionerSecondaryAngle)
             return  primary,secondary
         except Exception as e:
@@ -127,6 +127,10 @@ def process():
             for dcm in patient_date_dcms:
                 if os.path.splitext(dcm)[-1] !='.dcm':
                     continue
+                #选前7个
+                temp_index=int(dcm.split('-')[1])
+                if temp_index>7:
+                    continue
                 dcm_path=os.path.join(patient_date_file_path,dcm)
                 #判断文件大小，小于5M的pass
                 dcm_size=get_FileSize(dcm_path)
@@ -160,15 +164,16 @@ if __name__=='__main__':
     '''
     export PYTHONPATH=$PYTHONPATH:/home/wly/anaconda3/lib/python3.7/site-packages
     '''
-    
     os.chdir('/home')
-    origin_disk_path='DataBase3/segmentation'
-    target_dick_path='DataBase4/cto_gan_data/'
+    origin_disk_path='DataBase4/segmentation'
+    target_dick_path='DataBase4/cto_gan_data2/'
     day_list=os.listdir(origin_disk_path)
     ###
     patient_files_list=[]
     patient_paths_list=[]
     for day in day_list:
+        if '2017' not in day:
+            continue
         day_path=os.path.join(origin_disk_path,day)
         for xl in os.listdir(day_path):
             xl_path=os.path.join(day_path,xl)
@@ -187,20 +192,20 @@ if __name__=='__main__':
     print('原始人数：',patient_num)
 
     process()
-    '''
-    {'LAO_CRA': 708, 'RAO': 122, 'CRA': 306, 'LAO_CAU': 310, 'CAU': 306, 'AP': 50, 
-    'LAO': 943, 'RAO_CRA': 448, 'RAO_CAU': 366}
-    all_dcm_num: 3559   
-    CRA、CAU、LAO_CAU、RIGHT四类吗？
-    对  按照分割的经验来说分这四种就够了 你可以这样分试试，后面有问题再调整
+    # '''
+    # {'LAO_CRA': 708, 'RAO': 122, 'CRA': 306, 'LAO_CAU': 310, 'CAU': 306, 'AP': 50, 
+    # 'LAO': 943, 'RAO_CRA': 448, 'RAO_CAU': 366}
+    # all_dcm_num: 3559   
+    # CRA、CAU、LAO_CAU、RIGHT四类吗？
+    # 对  按照分割的经验来说分这四种就够了 你可以这样分试试，后面有问题再调整
 
-    去除小dcm文件后：
+    # 去除小dcm文件后：
 
-    现在换成了其他3个路径：
-    {'LAO_CRA': 372, 'AP': 303, 'RAO_CAU': 180}
-    all_dcm_num: 855
+    # 现在换成了其他3个路径：
+    # {'LAO_CRA': 372, 'AP': 303, 'RAO_CAU': 180}
+    # all_dcm_num: 855
 
-    '''
-
+    # '''
+    
 
 

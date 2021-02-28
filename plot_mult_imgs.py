@@ -3,10 +3,7 @@ from PIL import Image, ImageDraw
 from PIL import ImageFont
 import math
 from tqdm import tqdm
-root='/home/DataBase4/cto_gan_data/RAO_CAU/find_merged_result'
-os.chdir(root)
-
-
+import traceback
 
 
 
@@ -45,24 +42,30 @@ def image_compose(is_res):
                 del draw
 
                 to_image.paste(from_image, ((x - 1) * IMAGE_SIZE, (y - 1) * IMAGE_SIZE))
-            except:
+            except Exception as e:
+                print('e:',)
+                traceback.print_exc()
                 print('err!!!:',image_names[IMAGE_COLUMN * (y - 1) + x - 1])
     return to_image.save(IMAGE_SAVE_PATH)  # 保存新图
 
 if __name__=='__main__':
-    new_dicom_path='/home/DataBase4/cto_gan_data/RAO_CAU/find_merged_result/merge_rst'
+    #1
+    new_dicom_path='/home/DataBase4/cto_gan_data2/RAO/merged_multi_imgs'
+    #2
+    # new_dicom_path='/home/DataBase4/cto_gan_data2/LAO/find_merged_result/merge_rst'
+    os.chdir(new_dicom_path)
     if not os.path.exists(new_dicom_path):
         os.mkdir(new_dicom_path)
 
-    dicoms_list=os.listdir(root)
+    dicoms_list=os.listdir(new_dicom_path)
     pbar=tqdm(dicoms_list)
-    is_res=True
+    is_res=False
     for path in pbar:
         i=path.split('dicom')[-1]
         pbar.set_description("Processing %s" % path)
         IMAGES_FORMAT = ['.jpg','.JPG','.png','.PNG']  # 图片格式
         IMAGE_SIZE = 255  # 每张小图片的大小
-        dicom_path=os.path.join(root,path)
+        dicom_path=os.path.join(new_dicom_path,path)
         IMAGES_PATH = dicom_path
         img_num=len(os.listdir(dicom_path))
 
