@@ -50,9 +50,9 @@ def image_compose(is_res):
 
 if __name__=='__main__':
     #1
-    new_dicom_path='/home/DataBase4/cto_gan_data2/RAO/merged_multi_imgs'
+    # new_dicom_path='/home/DataBase4/cto_gan_data2/RAO/merged_multi_imgs'
     #2
-    # new_dicom_path='/home/DataBase4/cto_gan_data2/LAO/find_merged_result/merge_rst'
+    new_dicom_path='/home/DataBase4/cto_gan_data2/RAO/find_merged_result'
     os.chdir(new_dicom_path)
     if not os.path.exists(new_dicom_path):
         os.mkdir(new_dicom_path)

@@ -6,33 +6,33 @@ import sys
 # import cv2
 
 
-# def find_each_child_files(rootdir):
-#     _files = []
+def find_each_child_files(rootdir):
+    _files = []
 
-#     # 列出文件夹下所有的目录与文件
-#     list_file = os.listdir(rootdir)
+    # 列出文件夹下所有的目录与文件
+    list_file = os.listdir(rootdir)
 
-#     for i in range(0, len(list_file)):
-#         # 构造路径
-#         dicomi = os.path.join(rootdir, list_file[i])
-#         framesj = os.listdir(dicomi)
-#         format_file = ''
-#         for j in range(0, len(framesj)):
-#             # if os.path.isfile(framesj[j]):
-#             #     format_file=framesj[j]
-#             if framesj[j].endswith('.jpg'):
-#                 format_file = framesj[j]
-#         for j2 in range(0, len(framesj)):
-#             # if os.path.isdir(framesj[j2]):
-#             #     with open(os.path.join(framesj[j2],os.path.basename(format_file)),'w') as fw:
-#             #         fw.write(format_file)
-#             if not framesj[j2].endswith('.jpg') and not framesj[j2].endswith('.dcm'):
-#                 origin_dir = os.path.join(dicomi, framesj[j2])
-#                 # with open(os.path.join(origin_dir,os.path.basename(format_file)),'w') as fw:
-#                 #     fw.write(format_file)
-#                 img = cv2.imread(os.path.join(dicomi, format_file))
-#                 nn = os.path.join(origin_dir, os.path.basename(format_file))
-#                 cv2.imwrite(nn, img)
+    for i in range(0, len(list_file)):
+        # 构造路径
+        dicomi = os.path.join(rootdir, list_file[i])
+        framesj = os.listdir(dicomi)
+        format_file = ''
+        for j in range(0, len(framesj)):
+            # if os.path.isfile(framesj[j]):
+            #     format_file=framesj[j]
+            if framesj[j].endswith('.jpg'):
+                format_file = framesj[j]
+        for j2 in range(0, len(framesj)):
+            # if os.path.isdir(framesj[j2]):
+            #     with open(os.path.join(framesj[j2],os.path.basename(format_file)),'w') as fw:
+            #         fw.write(format_file)
+            if not framesj[j2].endswith('.jpg') and not framesj[j2].endswith('.dcm'):
+                origin_dir = os.path.join(dicomi, framesj[j2])
+                # with open(os.path.join(origin_dir,os.path.basename(format_file)),'w') as fw:
+                #     fw.write(format_file)
+                img = os.path.join(dicomi, format_file)
+                nn = os.path.join(origin_dir, os.path.basename(format_file))
+                shutil.copy( img,nn)
 
         # 判断路径是否是一个文件目录或者文件
         # 如果是文件目录，继续递归
@@ -185,7 +185,7 @@ if __name__ == '__main__':
     new_merged_path='/home/DataBase4/cto_gan_data2/RAO/merged'
     put_format_frames(new_merged_path)
 
-    # find_each_child_files(new_merged_path)
+    find_each_child_files(new_merged_path)
 
     '''delete_format_frames'''
     # delete_format_frames(new_merged_path)

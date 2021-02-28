@@ -28,7 +28,7 @@ main first
 
 4、操作add_format_frames.py
     1、把上一步选出的标准帧jpg留在dicom_i中
-    3、把标准帧加入每一个frame_i(执行py中的find_each_child_files()函数时，引入cv2，注意用python3.7.3-bit('bse':conda)编译器)
+    3、把标准帧加入每一个frame_i(执行py中的find_each_child_files()函数时，引入cv2，注意用python3.7.3-bit('base':conda)编译器)
     2、同时删除标准帧i对应的dicom_i的frame_i文件夹
 
 
@@ -63,7 +63,18 @@ main first
     修改#1路径，合成原始帧
     人工选出标准帧（充盈的，尤其是支端）【每个dicom选一张】
 4、操作add_format_frames.py
-    
+    ???用'base':conda环境的python3
+
+5、分割 操作cto_frames工程
+    用'base':conda环境的python3
+
+
+6、操作find_mer_rst.py (不切换上一步的环境)
+    按提示去plot_mult_imgs.py中 #1 merged_multi_imgs切换为 #2 find_merged_result
+7、返回find_mer_rst.py 
+    组合AB
+
+
 
 
 反思：
